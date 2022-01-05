@@ -19,7 +19,8 @@ export const paginationOptions = async (per_page: any, page: any) => {
     page: page,
     allowDiskUse: true,
     customLabels: customLabels,
-    lean: false,
+    lean: true,
     sort: { created_at: -1 },
+    leanWithId: true,
   };
 };
