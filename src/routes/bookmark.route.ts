@@ -7,7 +7,7 @@ import BookmarksController from "../controllers/Bookmark/Bookmarks.controller";
 const bookmarkRoute = Router();
 
 bookmarkRoute.post("/bookmarks/create", CreateBookmarkController);
-bookmarkRoute.delete("/bookmarks/:id/delete", DeleteBookmarkController);
+bookmarkRoute.delete("/bookmarks/:id", DeleteBookmarkController);
 bookmarkRoute.get("/bookmarks", BookmarksController);
 
 module.exports = bookmarkRoute;
