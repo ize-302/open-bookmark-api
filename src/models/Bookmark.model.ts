@@ -7,7 +7,6 @@ import mongoose, {
 } from "mongoose";
 import { config } from "dotenv";
 import mongoosePaginate from "mongoose-paginate-v2";
-let mongooseHidden = require("mongoose-hidden")();
 
 config();
 
@@ -30,7 +29,6 @@ const BookmarkSchema: Schema = new Schema({
 });
 
 BookmarkSchema.plugin(mongoosePaginate);
-BookmarkSchema.plugin(mongooseHidden, { hidden: { __v: true, _id: false } });
 const Bookmark = model<IBookmark, PaginateModel<IBookmark>>(
   "Bookmark",
   BookmarkSchema
