@@ -24,10 +24,10 @@ export interface IBookmark extends Document {
 const BookmarkSchema: Schema = new Schema({
   title: { type: String, required: true },
   url: { type: String, required: true },
-  created_at: { type: String, required: true, default: new Date() },
-  isPrivate: { type: Boolean, required: true },
+  created_at: { type: String, required: true },
+  isPrivate: { type: Boolean, required: true, default: false },
   comment: { type: String, required: false },
-  isTrashed: { type: Boolean, required: false },
+  isTrashed: { type: Boolean, required: false, default: false },
 });
 
 BookmarkSchema.plugin(mongoosePaginate);

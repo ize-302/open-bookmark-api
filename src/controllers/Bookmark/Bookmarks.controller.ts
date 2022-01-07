@@ -18,6 +18,7 @@ async function bookmarks(
   try {
     const { q, page, per_page } = req.query;
     const query = {
+      isTrashed: false,
       $or: [
         { title: { $regex: new RegExp(q), $options: "i" } },
         { url: { $regex: new RegExp(q), $options: "i" } },
