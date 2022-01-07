@@ -8,7 +8,7 @@ import UpdateBookmarkController from "../controllers/Bookmark/UpdateBookmark.con
 
 const bookmarkRoute = Router();
 
-bookmarkRoute.post("/bookmarks/create", CreateBookmarkController);
+bookmarkRoute.post("/bookmarks", CreateBookmarkController);
 bookmarkRoute.delete("/bookmarks/:id", DeleteBookmarkController);
 bookmarkRoute.get("/bookmarks", BookmarksController);
 bookmarkRoute.get("/bookmarks/:id", BookmarkController);
