@@ -5,7 +5,7 @@ async function create(
     body: {
       title: string;
       url: string;
-      description: string;
+      comment: string;
       isPrivate: boolean;
     };
   },
@@ -16,7 +16,7 @@ async function create(
   }
 ) {
   try {
-    const { title, url, description, isPrivate } = req.body;
+    const { title, url, comment, isPrivate } = req.body;
     if (!title || !url) {
       return res.status(400).json({
         message: "Fill up form",
@@ -26,7 +26,7 @@ async function create(
     const bookmark: IBookmark = new Bookmark({
       title,
       url,
-      description,
+      comment,
       isPrivate,
       created_at: new Date(),
     });

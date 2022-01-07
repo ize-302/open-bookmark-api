@@ -7,7 +7,7 @@ async function updateBookmark(
     body: {
       title: string;
       url: string;
-      description: string;
+      comment: string;
       isPrivate: boolean;
     };
   },
@@ -19,7 +19,7 @@ async function updateBookmark(
 ) {
   try {
     const id = req.params.id;
-    const { title, url, description, isPrivate } = req.body;
+    const { title, url, comment, isPrivate } = req.body;
     const bookmarkToUpdate: any = await Bookmark.findOneAndUpdate(
       {
         _id: id,
@@ -27,7 +27,7 @@ async function updateBookmark(
       {
         title,
         url,
-        description,
+        comment,
         isPrivate,
       }
     );
