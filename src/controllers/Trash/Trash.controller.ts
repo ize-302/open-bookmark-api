@@ -1,9 +1,11 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
+import { verifyToken } from "../../utils";
 
 async function trashBookmark(
   req: {
     params: { id: ObjectId };
+    headers: any;
   },
   res: {
     status: (arg0: number) => {
@@ -13,9 +15,18 @@ async function trashBookmark(
 ) {
   try {
     const id = req.params.id;
+    const { authorization } = req.headers;
+    const isAuthorized: any = verifyToken(authorization);
+    if (!isAuthorized) {
+      return res.status(400).json({
+        message: "Not authorised",
+        success: false,
+      });
+    }
     const bookmarkToTrash: any = await Bookmark.findOneAndUpdate(
       {
         _id: id,
+        author: isAuthorized.sub,
       },
       {
         isTrashed: true,

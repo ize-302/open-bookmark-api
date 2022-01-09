@@ -24,3 +24,13 @@ export const paginationOptions = async (per_page: any, page: any) => {
     leanWithId: true,
   };
 };
+
+export function verifyToken(jwtToken: string) {
+  try {
+    var token = jwtToken.replace("Bearer ", "");
+    return jwt.verify(token, `${process.env.SUPABASE_JWT_SECRET}`);
+  } catch (e) {
+    console.log("e:", e);
+    return null;
+  }
+}

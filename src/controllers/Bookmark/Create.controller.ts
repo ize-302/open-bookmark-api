@@ -1,4 +1,5 @@
 import Bookmark, { IBookmark } from "../../models/Bookmark.model";
+import { verifyToken } from "../../utils/index";
 
 async function create(
   req: {
@@ -8,6 +9,7 @@ async function create(
       comment: string;
       isPrivate: boolean;
     };
+    headers: any;
   },
   res: {
     status: (arg0: number) => {
@@ -17,6 +19,14 @@ async function create(
 ) {
   try {
     const { title, url, comment, isPrivate } = req.body;
+    const { authorization } = req.headers;
+    const isAuthorized: any = verifyToken(authorization);
+    if (!isAuthorized) {
+      return res.status(400).json({
+        message: "Not authorised",
+        success: false,
+      });
+    }
     if (!title || !url) {
       return res.status(400).json({
         message: "Fill up form",
@@ -29,6 +39,7 @@ async function create(
       comment,
       isPrivate,
       created_at: new Date(),
+      author: isAuthorized.sub,
     });
     const createBookmark = await bookmark.save();
     if (createBookmark) {
