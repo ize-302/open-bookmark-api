@@ -1,7 +1,7 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
 
-async function deleteBookmark(
+async function restoreBookmark(
   req: {
     params: { id: ObjectId };
   },
@@ -13,13 +13,18 @@ async function deleteBookmark(
 ) {
   try {
     const id = req.params.id;
-    const bookmarkToDelete: any = await Bookmark.findOneAndRemove({
-      _id: id,
-    });
-    if (bookmarkToDelete) {
+    const bookmarkToRestore: any = await Bookmark.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isTrashed: false,
+      }
+    );
+    if (bookmarkToRestore) {
       return res.status(200).json({
         success: true,
-        message: "Bookmark deleted!",
+        message: "Bookmark restored!",
       });
     } else {
       return res.status(200).json({
@@ -32,4 +37,4 @@ async function deleteBookmark(
   }
 }
 
-export default deleteBookmark;
+export default restoreBookmark;

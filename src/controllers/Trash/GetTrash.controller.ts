@@ -1,7 +1,7 @@
 import Bookmark, { IBookmark } from "../../models/Bookmark.model";
 import { paginationOptions } from "../../utils";
 
-async function bookmarks(
+async function getTrash(
   req: {
     query: {
       q: string;
@@ -18,7 +18,7 @@ async function bookmarks(
   try {
     const { q, page, per_page } = req.query;
     const query = {
-      isTrashed: false,
+      isTrashed: true,
       $or: [
         { title: { $regex: new RegExp(q), $options: "i" } },
         { url: { $regex: new RegExp(q), $options: "i" } },
@@ -37,4 +37,4 @@ async function bookmarks(
   }
 }
 
-export default bookmarks;
+export default getTrash;

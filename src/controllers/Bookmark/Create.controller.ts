@@ -5,7 +5,7 @@ async function create(
     body: {
       title: string;
       url: string;
-      description: string;
+      comment: string;
       isPrivate: boolean;
     };
   },
@@ -16,38 +16,26 @@ async function create(
   }
 ) {
   try {
-    const { title, url, description, isPrivate } = req.body;
+    const { title, url, comment, isPrivate } = req.body;
     if (!title || !url) {
       return res.status(400).json({
         message: "Fill up form",
         success: false,
       });
     }
-    const bookmarkExists = await Bookmark.findOne({
-      url: url,
+    const bookmark: IBookmark = new Bookmark({
+      title,
+      url,
+      comment,
+      isPrivate,
+      created_at: new Date(),
     });
-    if (bookmarkExists) {
-      if (bookmarkExists.url === url) {
-        return res.status(400).json({
-          message: "URL already bookmarked",
-          success: false,
-        });
-      }
-    } else {
-      const bookmark: IBookmark = new Bookmark({
-        title,
-        url,
-        description,
-        isPrivate,
-        created_at: new Date(),
+    const createBookmark = await bookmark.save();
+    if (createBookmark) {
+      res.status(200).json({
+        success: true,
+        message: "Bookmark created!",
       });
-      const createBookmark = await bookmark.save();
-      if (createBookmark) {
-        res.status(200).json({
-          success: true,
-          message: "Bookmark created!",
-        });
-      }
     }
   } catch (error) {
     return res.status(500).json({ message: "An error occured." });
