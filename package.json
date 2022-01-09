@@ -1,5 +1,5 @@
 {
-  "name": "open-bookmark-be",
+  "name": "open-bookmark-api",
   "version": "1.0.0",
   "main": "app.ts",
   "author": "ize-302 <adavizeozorku@gmail.com>",
