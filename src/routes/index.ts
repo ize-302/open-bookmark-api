@@ -2,9 +2,11 @@ const { Router } = require("express");
 const mainRouter = Router();
 const bookmarkRoute = require("./bookmark.route");
 const trashRoute = require("./trash.route");
+const otherRoute = require("./others.route");
 
 mainRouter.use("/", bookmarkRoute);
 mainRouter.use("/", trashRoute);
+mainRouter.use("/", otherRoute);
 
 mainRouter.get(
   "/",
