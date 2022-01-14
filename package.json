@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "yarn build:live",
+    "start": "nodemon src/app.ts",
     "build": "tsc --project ./",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/app.ts"
   },
