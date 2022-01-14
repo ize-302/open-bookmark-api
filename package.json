@@ -1,7 +1,6 @@
 {
   "name": "open-bookmark-api",
   "version": "1.0.0",
-  "type": "module",
   "main": "app.ts",
   "author": "ize-302 <adavizeozorku@gmail.com>",
   "license": "MIT",
