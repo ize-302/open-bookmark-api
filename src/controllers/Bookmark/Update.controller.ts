@@ -1,5 +1,6 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
+import { verifyToken } from "../../utils";
 
 async function updateBookmark(
   req: {
@@ -10,6 +11,7 @@ async function updateBookmark(
       comment: string;
       isPrivate: boolean;
     };
+    headers: any;
   },
   res: {
     status: (arg0: number) => {
@@ -19,10 +21,19 @@ async function updateBookmark(
 ) {
   try {
     const id = req.params.id;
+    const { authorization } = req.headers;
+    const isAuthorized: any = verifyToken(authorization);
+    if (!isAuthorized) {
+      return res.status(400).json({
+        message: "Not authorised",
+        success: false,
+      });
+    }
     const { title, url, comment, isPrivate } = req.body;
     const bookmarkToUpdate: any = await Bookmark.findOneAndUpdate(
       {
         _id: id,
+        author: isAuthorized.sub,
       },
       {
         title,

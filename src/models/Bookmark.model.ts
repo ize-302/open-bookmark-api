@@ -18,6 +18,7 @@ export interface IBookmark extends Document {
   isPrivate: boolean;
   comment: string;
   isTrashed: boolean;
+  author: string;
 }
 
 // create schema and Model
@@ -28,6 +29,7 @@ const BookmarkSchema: Schema = new Schema({
   isPrivate: { type: Boolean, required: true, default: false },
   comment: { type: String, required: false },
   isTrashed: { type: Boolean, required: false, default: false },
+  author: { type: String, required: true },
 });
 
 BookmarkSchema.plugin(mongoosePaginate);
