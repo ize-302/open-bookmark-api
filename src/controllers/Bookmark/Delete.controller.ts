@@ -25,7 +25,7 @@ async function deleteBookmark(
     }
     const bookmarkToDelete: any = await Bookmark.findOneAndRemove({
       _id: id,
-      author: "isAuthorized.sub",
+      author: isAuthorized.sub,
     });
     if (bookmarkToDelete) {
       return res.status(200).json({
