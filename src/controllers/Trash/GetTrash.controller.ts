@@ -1,5 +1,5 @@
 import Bookmark, { IBookmark } from "../../models/Bookmark.model";
-import { paginationOptions } from "../../utils";
+import { paginationOptions, verifyToken } from "../../utils";
 
 async function getTrash(
   req: {
@@ -8,6 +8,7 @@ async function getTrash(
       page: string;
       per_page: string;
     };
+    headers: any;
   },
   res: {
     status: (arg0: number) => {
@@ -17,8 +18,17 @@ async function getTrash(
 ) {
   try {
     const { q, page, per_page } = req.query;
+    const { authorization } = req.headers;
+    const isAuthorized: any = verifyToken(authorization);
+    if (!isAuthorized) {
+      return res.status(400).json({
+        message: "Not authorised",
+        success: false,
+      });
+    }
     const query = {
       isTrashed: true,
+      author: isAuthorized.sub,
       $or: [
         { title: { $regex: new RegExp(q), $options: "i" } },
         { url: { $regex: new RegExp(q), $options: "i" } },
