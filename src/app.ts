@@ -11,7 +11,7 @@ app.use(express.json());
 
 // Setup CORS
 let corsOptions = {
-  origin: [process.env.FRONTEND_URL, `https://localhost:${process.env.PORT}`],
+  origin: process.env.FRONTEND_URL,
   optionsSuccessStatus: 200, // For legacy browser support
 };
 app.use(cors(corsOptions));
