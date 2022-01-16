@@ -1,5 +1,6 @@
 import Bookmark from "../../models/Bookmark.model";
 import { paginationOptions, verifyToken } from "../../utils";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 async function browse(
   req: {
@@ -21,10 +22,9 @@ async function browse(
     const { authorization } = req.headers;
     const isAuthorized: any = verifyToken(authorization);
     if (!isAuthorized) {
-      return res.status(400).json({
-        message: "Not authorised",
-        success: false,
-      });
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
     const query = {
       isPrivate: false,
@@ -37,13 +37,17 @@ async function browse(
 
     Bookmark.paginate(query, await paginationOptions(per_page, page))
       .then(async (result: any) => {
-        res.status(200).json(result);
+        res.status(StatusCodes.OK).json(result);
       })
       .catch((err: any) => {
-        console.log(err);
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
       });
   } catch (error) {
-    return res.status(500).json({ message: "An error occured." });
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 

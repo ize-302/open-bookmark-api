@@ -1,5 +1,6 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 async function getBookmark(
   req: {
@@ -13,16 +14,20 @@ async function getBookmark(
 ) {
   try {
     const id = req.params.id;
-    const findBookmark: any = await Bookmark.findOne({
+    const foundBookmark: any = await Bookmark.findOne({
       _id: id,
     });
-    if (findBookmark) {
-      return res.status(200).json(findBookmark);
+    if (foundBookmark) {
+      return res.status(StatusCodes.OK).json(foundBookmark);
+    } else {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: ReasonPhrases.NOT_FOUND });
     }
   } catch (error) {
     return res
-      .status(404)
-      .json({ success: false, message: "Bookmark not found!" });
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 

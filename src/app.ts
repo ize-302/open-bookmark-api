@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 const api = require("./routes/index");
 const cors = require("cors");
 const dbConnect = require("./middleware/connection");
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ app.use("/api/v1", api);
 
 // invalid route
 app.all("*", (req, res) => {
-  res.status(404).send("route is invalid");
+  res.status(StatusCodes.NOT_FOUND).json({ message: ReasonPhrases.NOT_FOUND });
 });
 
 // mongodb conection

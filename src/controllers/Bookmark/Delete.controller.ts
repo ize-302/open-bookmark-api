@@ -1,6 +1,7 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
 import { verifyToken } from "../../utils";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 async function deleteBookmark(
   req: {
@@ -18,28 +19,27 @@ async function deleteBookmark(
     const { authorization } = req.headers;
     const isAuthorized: any = verifyToken(authorization);
     if (!isAuthorized) {
-      return res.status(400).json({
-        message: "Not authorised",
-        success: false,
-      });
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
     const bookmarkToDelete: any = await Bookmark.findOneAndRemove({
       _id: id,
       author: isAuthorized.sub,
     });
     if (bookmarkToDelete) {
-      return res.status(200).json({
-        success: true,
-        message: "Bookmark deleted!",
+      return res.status(StatusCodes.OK).json({
+        message: "Deleted!",
       });
     } else {
-      return res.status(200).json({
-        success: false,
-        message: "Bookmark not found!",
+      return res.status(StatusCodes.NOT_FOUND).json({
+        message: ReasonPhrases.NOT_FOUND,
       });
     }
   } catch (error) {
-    return res.status(500).json({ message: "An error occured." });
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 

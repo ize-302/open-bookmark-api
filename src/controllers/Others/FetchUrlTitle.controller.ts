@@ -1,5 +1,6 @@
 import cheerio from "cheerio";
 import axios from "axios";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 async function fetchUrlTitle(
   req: {
@@ -18,18 +19,17 @@ async function fetchUrlTitle(
       .then((response) => {
         var $ = cheerio.load(response.data);
         var title = $("title").text();
-        res.status(200).json({
-          title: title,
-        });
+        res.status(StatusCodes.OK).json({ title });
       })
       .catch((error) => {
-        console.log(error);
-        return res.status(500).json({
-          error,
-        });
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
       });
   } catch (error) {
-    return res.status(500).json({ message: "An error occured." });
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 

@@ -1,6 +1,7 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
 import { verifyToken } from "../../utils";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 async function trashBookmark(
   req: {
@@ -18,10 +19,9 @@ async function trashBookmark(
     const { authorization } = req.headers;
     const isAuthorized: any = verifyToken(authorization);
     if (!isAuthorized) {
-      return res.status(400).json({
-        message: "Not authorised",
-        success: false,
-      });
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
     const bookmarkToTrash: any = await Bookmark.findOneAndUpdate(
       {
@@ -33,18 +33,18 @@ async function trashBookmark(
       }
     );
     if (bookmarkToTrash) {
-      return res.status(200).json({
-        success: true,
+      return res.status(StatusCodes.OK).json({
         message: "Bookmark trashed!",
       });
     } else {
-      return res.status(200).json({
-        success: false,
+      return res.status(StatusCodes.NOT_FOUND).json({
         message: "Bookmark not found!",
       });
     }
   } catch (error) {
-    return res.status(500).json({ message: "An error occured." });
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 

@@ -1,5 +1,6 @@
 import Bookmark, { IBookmark } from "../../models/Bookmark.model";
 import { verifyToken } from "../../utils/index";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 async function create(
   req: {
@@ -22,16 +23,14 @@ async function create(
     const { authorization } = req.headers;
     const isAuthorized: any = verifyToken(authorization);
     if (!isAuthorized) {
-      return res.status(400).json({
-        message: "Not authorised",
-        success: false,
-      });
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
     if (!title || !url) {
-      return res.status(400).json({
-        message: "Fill up form",
-        success: false,
-      });
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: ReasonPhrases.BAD_REQUEST });
     }
     const bookmark: IBookmark = new Bookmark({
       title,
@@ -43,13 +42,12 @@ async function create(
     });
     const createBookmark = await bookmark.save();
     if (createBookmark) {
-      res.status(200).json({
-        success: true,
-        message: "Bookmark created!",
-      });
+      res.status(StatusCodes.CREATED).json({ message: ReasonPhrases.CREATED });
     }
   } catch (error) {
-    return res.status(500).json({ message: "An error occured." });
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 

@@ -1,3 +1,4 @@
+import { StatusCodes } from "http-status-codes";
 const { Router } = require("express");
 const mainRouter = Router();
 const bookmarkRoute = require("./bookmark.route");
@@ -16,15 +17,14 @@ mainRouter.get(
       status: (arg0: number) => {
         (): any;
         new (): any;
-        send: { (arg0: string): void; new (): any };
+        json: any;
       };
     }
   ) => {
-    res
-      .status(200)
-      .send(
-        "The Incredible True Story & Transformation of the man who saved the world"
-      );
+    res.status(StatusCodes.OK).json({
+      message:
+        "The Incredible True Story & Transformation of the man who saved the world",
+    });
   }
 );
 
