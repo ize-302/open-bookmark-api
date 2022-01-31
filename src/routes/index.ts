@@ -5,11 +5,13 @@ const bookmarkRoute = require("./bookmark.route");
 const trashRoute = require("./trash.route");
 const otherRoute = require("./others.route");
 const userRoute = require("./user.route");
+const categoryRoute = require("./category.route");
 
 mainRouter.use("/", bookmarkRoute);
 mainRouter.use("/", trashRoute);
 mainRouter.use("/", otherRoute);
 mainRouter.use("/", userRoute);
+mainRouter.use("/", categoryRoute);
 
 mainRouter.get(
   "/",
