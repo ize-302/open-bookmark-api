@@ -2,6 +2,11 @@ import User, { IUser } from "../../models/User.model";
 import { verifyToken } from "../../utils/index";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ *  Handle user
+ *
+ *  Description: Save newly registered user to DB
+ */
 async function user(
   req: {
     headers: any;

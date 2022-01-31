@@ -3,6 +3,11 @@ import Bookmark from "../../models/Bookmark.model";
 import { verifyToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ * Update a bookmark
+ *
+ *  Description: Update a bookmark
+ */
 async function updateBookmark(
   req: {
     params: { id: ObjectId };

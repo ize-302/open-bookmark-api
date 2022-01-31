@@ -2,6 +2,11 @@ import Bookmark, { IBookmark } from "../../models/Bookmark.model";
 import { verifyToken } from "../../utils/index";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ *  Create bookmark
+ *
+ *  Description: Create a bookmark
+ */
 async function create(
   req: {
     body: {

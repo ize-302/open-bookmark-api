@@ -3,6 +3,11 @@ import Bookmark from "../../models/Bookmark.model";
 import { verifyToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ * Delete a bookmark
+ *
+ *  Description: Permanently delete a bookmark
+ */
 async function deleteBookmark(
   req: {
     params: { id: ObjectId };

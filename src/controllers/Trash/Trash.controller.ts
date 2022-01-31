@@ -3,6 +3,11 @@ import Bookmark from "../../models/Bookmark.model";
 import { verifyToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ * Trash a bookmark
+ *
+ *  Description: Temporary trash a bookmark
+ */
 async function trashBookmark(
   req: {
     params: { id: ObjectId };

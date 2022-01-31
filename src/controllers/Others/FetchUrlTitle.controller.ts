@@ -2,6 +2,11 @@ import cheerio from "cheerio";
 import axios from "axios";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ *  Grab a title of URL
+ *
+ *  Description: Grabs the title of any given url
+ */
 async function fetchUrlTitle(
   req: {
     query: { url: string };

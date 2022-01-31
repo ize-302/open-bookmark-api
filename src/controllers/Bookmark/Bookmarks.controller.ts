@@ -2,6 +2,11 @@ import Bookmark, { IBookmark } from "../../models/Bookmark.model";
 import { paginationOptions, verifyToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ *  User's bookmarks
+ *
+ *  Description: Get all bookmarks of logged user
+ */
 async function bookmarks(
   req: {
     query: {

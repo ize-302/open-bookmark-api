@@ -2,6 +2,11 @@ import Bookmark from "../../models/Bookmark.model";
 import { paginationOptions, verifyToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ *  Browser bookmarks
+ *
+ *  Description: Get all publicly available bookamrjs
+ */
 async function browse(
   req: {
     query: {

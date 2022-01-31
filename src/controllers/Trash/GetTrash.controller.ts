@@ -2,6 +2,11 @@ import Bookmark, { IBookmark } from "../../models/Bookmark.model";
 import { paginationOptions, verifyToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ *  User's trashed bookmarks
+ *
+ *  Description: Get all trashed bookmarks of logged user
+ */
 async function getTrash(
   req: {
     query: {

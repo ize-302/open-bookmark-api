@@ -3,6 +3,11 @@ import Bookmark from "../../models/Bookmark.model";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { verifyToken } from "../../utils";
 
+/**
+ * Untrash a bookmark
+ *
+ *  Description:  Unrash a bookmark
+ */
 async function restoreBookmark(
   req: {
     params: { id: ObjectId };
