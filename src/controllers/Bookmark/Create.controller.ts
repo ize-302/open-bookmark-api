@@ -2,13 +2,18 @@ import Bookmark, { IBookmark } from "../../models/Bookmark.model";
 import { verifyToken } from "../../utils/index";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ *  Create bookmark
+ *
+ *  Description: Create a bookmark
+ */
 async function create(
   req: {
     body: {
       title: string;
       url: string;
       comment: string;
-      isPrivate: boolean;
+      is_private: boolean;
     };
     headers: any;
   },
@@ -19,7 +24,7 @@ async function create(
   }
 ) {
   try {
-    const { title, url, comment, isPrivate } = req.body;
+    const { title, url, comment, is_private } = req.body;
     const { authorization } = req.headers;
     const isAuthorized: any = verifyToken(authorization);
     if (!isAuthorized) {
@@ -36,7 +41,7 @@ async function create(
       title,
       url,
       comment,
-      isPrivate,
+      is_private,
       created_at: new Date(),
       author: isAuthorized.sub,
     });

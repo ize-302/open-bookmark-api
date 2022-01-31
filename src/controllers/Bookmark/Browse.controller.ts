@@ -2,6 +2,11 @@ import Bookmark from "../../models/Bookmark.model";
 import { paginationOptions, verifyToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ *  Browser bookmarks
+ *
+ *  Description: Get all publicly available bookamrjs
+ */
 async function browse(
   req: {
     query: {
@@ -27,8 +32,8 @@ async function browse(
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
     const query = {
-      isPrivate: false,
-      isTrashed: false,
+      is_private: false,
+      is_trashed: false,
       $or: [
         { title: { $regex: new RegExp(q), $options: "i" } },
         { url: { $regex: new RegExp(q), $options: "i" } },

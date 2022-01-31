@@ -2,6 +2,11 @@ import Bookmark, { IBookmark } from "../../models/Bookmark.model";
 import { paginationOptions, verifyToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ *  User's trashed bookmarks
+ *
+ *  Description: Get all trashed bookmarks of logged user
+ */
 async function getTrash(
   req: {
     query: {
@@ -27,7 +32,7 @@ async function getTrash(
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
     const query = {
-      isTrashed: true,
+      is_trashed: true,
       author: isAuthorized.sub,
       $or: [
         { title: { $regex: new RegExp(q), $options: "i" } },

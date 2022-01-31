@@ -2,6 +2,11 @@ import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
+/**
+ * Get a bookmark
+ *
+ *  Description: Get a bookmark
+ */
 async function getBookmark(
   req: {
     params: { id: ObjectId };
