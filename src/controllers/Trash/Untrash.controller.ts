@@ -34,7 +34,7 @@ async function restoreBookmark(
         author: isAuthorized.sub,
       },
       {
-        isTrashed: false,
+        is_trashed: false,
       }
     );
     if (bookmarkToRestore) {

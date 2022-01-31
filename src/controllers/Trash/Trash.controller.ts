@@ -34,7 +34,7 @@ async function trashBookmark(
         author: isAuthorized.sub,
       },
       {
-        isTrashed: true,
+        is_trashed: true,
       }
     );
     if (bookmarkToTrash) {

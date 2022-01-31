@@ -15,7 +15,7 @@ async function updateBookmark(
       title: string;
       url: string;
       comment: string;
-      isPrivate: boolean;
+      is_private: boolean;
     };
     headers: any;
   },
@@ -34,7 +34,7 @@ async function updateBookmark(
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
-    const { title, url, comment, isPrivate } = req.body;
+    const { title, url, comment, is_private } = req.body;
     const bookmarkToUpdate: any = await Bookmark.findOneAndUpdate(
       {
         _id: id,
@@ -44,7 +44,7 @@ async function updateBookmark(
         title,
         url,
         comment,
-        isPrivate,
+        is_private,
       }
     );
     if (bookmarkToUpdate) {

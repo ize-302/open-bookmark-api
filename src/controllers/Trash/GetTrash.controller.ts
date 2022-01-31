@@ -32,7 +32,7 @@ async function getTrash(
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
     const query = {
-      isTrashed: true,
+      is_trashed: true,
       author: isAuthorized.sub,
       $or: [
         { title: { $regex: new RegExp(q), $options: "i" } },

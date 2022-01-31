@@ -32,7 +32,7 @@ async function bookmarks(
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
     const query = {
-      isTrashed: false,
+      is_trashed: false,
       author: isAuthorized.sub,
       $or: [
         { title: { $regex: new RegExp(q), $options: "i" } },
