@@ -14,6 +14,7 @@ async function create(
       url: string;
       comment: string;
       is_private: boolean;
+      category: string;
     };
     headers: any;
   },
@@ -24,7 +25,7 @@ async function create(
   }
 ) {
   try {
-    const { title, url, comment, is_private } = req.body;
+    const { title, url, comment, is_private, category } = req.body;
     const { authorization } = req.headers;
     const isAuthorized: any = verifyToken(authorization);
     if (!isAuthorized) {
@@ -44,6 +45,7 @@ async function create(
       is_private,
       created_at: new Date(),
       author: isAuthorized.sub,
+      category,
     });
     const createBookmark = await bookmark.save();
     if (createBookmark) {
