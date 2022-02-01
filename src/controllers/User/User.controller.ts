@@ -26,16 +26,26 @@ async function user(
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
     const { avatar_url, full_name, email } = is_authorized.user_metadata;
+    const { sub } = is_authorized;
     const foundUser: any = await User.findOne({
       email,
     });
     if (foundUser) {
-      res.status(StatusCodes.OK).json(foundUser);
+      const updatedUser = await User.findOneAndUpdate(
+        {
+          email: email,
+        },
+        {
+          sub,
+        }
+      );
+      res.status(StatusCodes.OK).json(updatedUser);
     } else {
       const user: IUser = new User({
         avatar_url,
         full_name,
         email,
+        sub,
         joined: new Date(),
       });
       const created_user = await user.save();

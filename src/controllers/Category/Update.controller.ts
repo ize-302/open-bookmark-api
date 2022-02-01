@@ -1,22 +1,18 @@
 import { ObjectId } from "mongoose";
-import Bookmark from "../../models/Bookmark.model";
+import Category from "../../models/Category.model";
 import { verifyToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
- * Update a bookmark
+ * Update a category
  *
- *  Description: Update a bookmark
+ *  Description: Update a category
  */
-async function updateBookmark(
+async function updateCategory(
   req: {
     params: { id: ObjectId };
     body: {
-      title: string;
-      url: string;
-      comment: string;
-      is_private: boolean;
-      category: string;
+      name: string;
     };
     headers: any;
   },
@@ -35,23 +31,19 @@ async function updateBookmark(
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
-    const { title, url, comment, is_private, category } = req.body;
-    const bookmarkToUpdate: any = await Bookmark.findOneAndUpdate(
+    const { name } = req.body;
+    const categoryToUpdate: any = await Category.findOneAndUpdate(
       {
         _id: id,
         author: isAuthorized.sub,
       },
       {
-        title,
-        url,
-        comment,
-        is_private,
-        category,
+        name,
       }
     );
-    if (bookmarkToUpdate) {
+    if (categoryToUpdate) {
       return res.status(StatusCodes.OK).json({
-        message: "Bookmark Updated!",
+        message: "Category Updated!",
       });
     } else {
       return res.status(StatusCodes.NOT_FOUND).json({
@@ -65,4 +57,4 @@ async function updateBookmark(
   }
 }
 
-export default updateBookmark;
+export default updateCategory;

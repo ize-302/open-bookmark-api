@@ -1,20 +1,16 @@
-import Bookmark, { IBookmark } from "../../models/Bookmark.model";
+import Category, { ICategory } from "../../models/Category.model";
 import { verifyToken } from "../../utils/index";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
- *  Create bookmark
+ *  Create category
  *
- *  Description: Create a bookmark
+ *  Description: Create a category
  */
-async function create(
+async function createCategory(
   req: {
     body: {
-      title: string;
-      url: string;
-      comment: string;
-      is_private: boolean;
-      category: string;
+      name: string;
     };
     headers: any;
   },
@@ -25,7 +21,7 @@ async function create(
   }
 ) {
   try {
-    const { title, url, comment, is_private, category } = req.body;
+    const { name } = req.body;
     const { authorization } = req.headers;
     const isAuthorized: any = verifyToken(authorization);
     if (!isAuthorized) {
@@ -33,22 +29,18 @@ async function create(
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
-    if (!title || !url) {
+    if (!name) {
       return res
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: ReasonPhrases.BAD_REQUEST });
     }
-    const bookmark: IBookmark = new Bookmark({
-      title,
-      url,
-      comment,
-      is_private,
+    const category: ICategory = new Category({
+      name,
       created_at: new Date(),
       author: isAuthorized.sub,
-      category,
     });
-    const createBookmark = await bookmark.save();
-    if (createBookmark) {
+    const createCategory = await category.save();
+    if (createCategory) {
       res.status(StatusCodes.CREATED).json({ message: ReasonPhrases.CREATED });
     }
   } catch (error) {
@@ -58,4 +50,4 @@ async function create(
   }
 }
 
-export default create;
+export default createCategory;

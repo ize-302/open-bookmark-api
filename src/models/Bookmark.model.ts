@@ -19,6 +19,7 @@ export interface IBookmark extends Document {
   comment: string;
   is_trashed: boolean;
   author: string;
+  category: string;
 }
 
 // create schema and Model
@@ -30,6 +31,7 @@ const BookmarkSchema: Schema = new Schema({
   comment: { type: String, required: false },
   is_trashed: { type: Boolean, required: false, default: false },
   author: { type: String, required: true },
+  category: { type: String, required: false },
 });
 
 BookmarkSchema.plugin(mongoosePaginate);

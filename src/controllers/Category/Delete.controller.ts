@@ -1,23 +1,16 @@
 import { ObjectId } from "mongoose";
-import Bookmark from "../../models/Bookmark.model";
+import Category from "../../models/Category.model";
 import { verifyToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
- * Update a bookmark
+ * Delete a category
  *
- *  Description: Update a bookmark
+ *  Description: Permanently delete a category
  */
-async function updateBookmark(
+async function deleteCategory(
   req: {
     params: { id: ObjectId };
-    body: {
-      title: string;
-      url: string;
-      comment: string;
-      is_private: boolean;
-      category: string;
-    };
     headers: any;
   },
   res: {
@@ -35,23 +28,13 @@ async function updateBookmark(
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
-    const { title, url, comment, is_private, category } = req.body;
-    const bookmarkToUpdate: any = await Bookmark.findOneAndUpdate(
-      {
-        _id: id,
-        author: isAuthorized.sub,
-      },
-      {
-        title,
-        url,
-        comment,
-        is_private,
-        category,
-      }
-    );
-    if (bookmarkToUpdate) {
+    const categoryToDelete: any = await Category.findOneAndRemove({
+      _id: id,
+      author: isAuthorized.sub,
+    });
+    if (categoryToDelete) {
       return res.status(StatusCodes.OK).json({
-        message: "Bookmark Updated!",
+        message: "Deleted!",
       });
     } else {
       return res.status(StatusCodes.NOT_FOUND).json({
@@ -65,4 +48,4 @@ async function updateBookmark(
   }
 }
 
-export default updateBookmark;
+export default deleteCategory;
