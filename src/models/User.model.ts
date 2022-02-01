@@ -8,6 +8,7 @@ export interface IUser extends Document {
   avatar_url: string;
   full_name: string;
   email: string;
+  sub: string;
   joined: Date;
 }
 
@@ -16,6 +17,7 @@ const UserSchema: Schema = new Schema({
   avatar_url: { type: String, required: true },
   full_name: { type: String, required: true },
   email: { type: String, required: true },
+  sub: { type: String, required: true },
   joined: { type: String, required: true },
 });
 
