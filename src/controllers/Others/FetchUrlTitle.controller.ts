@@ -29,7 +29,7 @@ async function fetchUrlTitle(
       .catch((error) => {
         return res
           .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+          .json({ message: "Could not generate title" });
       });
   } catch (error) {
     return res
