@@ -7,7 +7,7 @@ import { ReasonPhrases, StatusCodes } from "http-status-codes";
  *
  *  Description: Get all bookmarks of logged user
  */
-async function userBookmarks(
+async function userPublicBookmarks(
   req: {
     params: {
       id: string;
@@ -58,4 +58,4 @@ async function userBookmarks(
   }
 }
 
-export default userBookmarks;
+export default userPublicBookmarks;
