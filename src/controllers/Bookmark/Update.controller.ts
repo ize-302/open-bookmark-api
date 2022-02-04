@@ -47,6 +47,7 @@ async function updateBookmark(
         description,
         is_private,
         category,
+        updated_at: new Date(),
       }
     );
     if (bookmarkToUpdate) {

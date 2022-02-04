@@ -44,6 +44,7 @@ async function create(
       description,
       is_private,
       created_at: new Date(),
+      updated_at: new Date(),
       author: isAuthorized.sub,
       category,
     });
