@@ -10,6 +10,8 @@ export interface IUser extends Document {
   email: string;
   sub: string;
   joined: Date;
+  following: Array<string>;
+  followers: Array<string>;
 }
 
 // create schema and Model
@@ -19,6 +21,8 @@ const UserSchema: Schema = new Schema({
   email: { type: String, required: true },
   sub: { type: String, required: true },
   joined: { type: String, required: true },
+  following: { type: Array, required: false },
+  followers: { type: Array, required: true },
 });
 
 const User = model<IUser>("User", UserSchema);

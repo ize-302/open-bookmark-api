@@ -1,12 +1,14 @@
 import User, { IUser } from "../../models/User.model";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
+import { fetchUser } from "../../utils";
+import { resourceLimits } from "worker_threads";
 
 /**
  *  Handle user
  *
  *  Description: get a user's detail
  */
-async function getUser(
+async function getUserInfo(
   req: {
     params: {
       id: string;
@@ -35,4 +37,4 @@ async function getUser(
   }
 }
 
-export default getUser;
+export default getUserInfo;
