@@ -7,7 +7,7 @@ import { ReasonPhrases, StatusCodes } from "http-status-codes";
  *
  *  Description: Save newly registered user to DB
  */
-async function user(
+async function addUser(
   req: {
     headers: any;
   },
@@ -58,4 +58,4 @@ async function user(
   }
 }
 
-export default user;
+export default addUser;

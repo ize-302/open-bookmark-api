@@ -1,5 +1,5 @@
 import Bookmark from "../../models/Bookmark.model";
-import { paginationOptions, verifyToken } from "../../utils";
+import { paginationOptions, verifyToken, fetchUser } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -42,6 +42,9 @@ async function browse(
 
     Bookmark.paginate(query, await paginationOptions(per_page, page))
       .then(async (result: any) => {
+        for (let i = 0; i < result.items.length; i++) {
+          result.items[i].author = await fetchUser(req, result.items[i].author);
+        }
         res.status(StatusCodes.OK).json(result);
       })
       .catch((err: any) => {

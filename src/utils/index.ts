@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import axios from "axios";
 
 // PAGINATION UTISL
 const customLabels = {
@@ -33,4 +34,13 @@ export function verifyToken(jwtToken: string) {
     console.log("e:", e);
     return null;
   }
+}
+
+// get author detail
+export async function fetchUser(req: any, authorId: any) {
+  return axios
+    .get(`http://${req.headers.host}/api/v1/users/${authorId}`)
+    .then((response) => {
+      return response.data;
+    });
 }
