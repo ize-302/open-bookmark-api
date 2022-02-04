@@ -33,7 +33,6 @@ async function myBookmarks(
         { title: { $regex: new RegExp(q), $options: "i" } },
         { url: { $regex: new RegExp(q), $options: "i" } },
       ],
-      is_private: false,
     };
     Bookmark.paginate(query, await paginationOptions(per_page, page))
       .then(async (result: any) => {
