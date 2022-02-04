@@ -12,7 +12,7 @@ async function create(
     body: {
       title: string;
       url: string;
-      comment: string;
+      description: string;
       is_private: boolean;
       category: string;
     };
@@ -25,7 +25,7 @@ async function create(
   }
 ) {
   try {
-    const { title, url, comment, is_private, category } = req.body;
+    const { title, url, description, is_private, category } = req.body;
     const { authorization } = req.headers;
     const isAuthorized: any = verifyToken(authorization);
     if (!isAuthorized) {
@@ -41,7 +41,7 @@ async function create(
     const bookmark: IBookmark = new Bookmark({
       title,
       url,
-      comment,
+      description,
       is_private,
       created_at: new Date(),
       author: isAuthorized.sub,

@@ -16,7 +16,7 @@ export interface IBookmark extends Document {
   url: string;
   created_at: Date;
   is_private: boolean;
-  comment: string;
+  description: string;
   is_trashed: boolean;
   author: string;
   category: string;
@@ -28,7 +28,7 @@ const BookmarkSchema: Schema = new Schema({
   url: { type: String, required: true },
   created_at: { type: String, required: true },
   is_private: { type: Boolean, required: true, default: false },
-  comment: { type: String, required: false },
+  description: { type: String, required: false },
   is_trashed: { type: Boolean, required: false, default: false },
   author: { type: String, required: true },
   category: { type: String, required: false },
