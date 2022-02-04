@@ -39,7 +39,7 @@ export function verifyToken(jwtToken: string) {
 // get author detail
 export async function fetchUser(req: any, authorId: any) {
   return axios
-    .get(`http://${req.headers.host}/api/v1/users/${authorId}`)
+    .get(`http://${req.headers.host}/api/v1/users/${authorId}/info`)
     .then((response) => {
       return response.data;
     });
