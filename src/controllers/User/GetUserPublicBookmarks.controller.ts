@@ -1,14 +1,17 @@
-import Bookmark from "../../models/Bookmark.model";
+import Bookmark, { IBookmark } from "../../models/Bookmark.model";
 import { paginationOptions, verifyToken, fetchUser } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
- *  Browser bookmarks
+ *  User's bookmarks
  *
- *  Description: Get all publicly available bookamrjs
+ *  Description: Get all bookmarks of logged user
  */
-async function browse(
+async function userPublicBookmarks(
   req: {
+    params: {
+      id: string;
+    };
     query: {
       q: string;
       page: string;
@@ -24,20 +27,15 @@ async function browse(
 ) {
   try {
     const { q, page, per_page } = req.query;
-    const { authorization } = req.headers;
-    const isAuthorized: any = verifyToken(authorization);
-    if (!isAuthorized) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: ReasonPhrases.UNAUTHORIZED });
-    }
+    const { id } = req.params;
     const query = {
-      is_private: false,
       is_trashed: false,
+      author: id,
       $or: [
         { title: { $regex: new RegExp(q), $options: "i" } },
         { url: { $regex: new RegExp(q), $options: "i" } },
       ],
+      is_private: false,
     };
 
     Bookmark.paginate(query, await paginationOptions(per_page, page))
@@ -48,15 +46,16 @@ async function browse(
         res.status(StatusCodes.OK).json(result);
       })
       .catch((err: any) => {
+        console.log(err);
         return res
           .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+          .json({ meesage: ReasonPhrases.INTERNAL_SERVER_ERROR });
       });
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+      .json({ meesage: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 
-export default browse;
+export default userPublicBookmarks;

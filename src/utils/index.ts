@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import axios from "axios";
 
 // PAGINATION UTISL
 const customLabels = {
@@ -20,7 +21,7 @@ export const paginationOptions = async (per_page: any, page: any) => {
     allowDiskUse: true,
     customLabels: customLabels,
     lean: true,
-    sort: { created_at: -1 },
+    sort: { updated_at: -1 },
     leanWithId: true,
   };
 };
@@ -33,4 +34,13 @@ export function verifyToken(jwtToken: string) {
     console.log("e:", e);
     return null;
   }
+}
+
+// get author detail
+export async function fetchUser(req: any, authorId: any) {
+  return axios
+    .get(`http://${req.headers.host}/api/v1/users/${authorId}/info`)
+    .then((response) => {
+      return response.data;
+    });
 }
