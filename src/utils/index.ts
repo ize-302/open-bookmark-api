@@ -46,7 +46,7 @@ export async function generateAccessToken(payload: any) {
       sub: payload.sub,
     },
     `${process.env.JWT_SECRET}`,
-    { expiresIn: "1h", algorithm: "HS256" }
+    { expiresIn: "15000", algorithm: "HS256" }
   );
   return access_token;
 }

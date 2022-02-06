@@ -1,4 +1,5 @@
 import User, { IUser } from "../../models/User.model";
+import Token, { IToken } from "../../models/Token.model";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
@@ -55,6 +56,15 @@ async function verifyUser(
     const access_token = await generateAccessToken(payload);
     // GENERATE REFRESH TOKEN
     let refresh_token = generateRefreshToken(payload);
+    // save refresh token
+    const futureDate = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
+    const saveToken: IToken = new Token({
+      token: refresh_token,
+      created_at: new Date(),
+      expires_at: futureDate,
+      user: payload.sub,
+    });
+    await saveToken.save();
     res
       .status(StatusCodes.OK)
       .json({ access_token: access_token, refresh_token });
