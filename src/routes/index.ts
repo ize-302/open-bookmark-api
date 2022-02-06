@@ -6,13 +6,16 @@ const trashRoute = require("./trash.route");
 const otherRoute = require("./others.route");
 const userRoute = require("./user.route");
 const categoryRoute = require("./category.route");
+const authRoute = require("./auth.route");
 
 mainRouter.use("/", bookmarkRoute);
 mainRouter.use("/", trashRoute);
 mainRouter.use("/", otherRoute);
 mainRouter.use("/", userRoute);
 mainRouter.use("/", categoryRoute);
-import bookmarks from "../controllers/Others/hmm"
+mainRouter.use("/", authRoute);
+
+import bookmarks from "../controllers/Others/hmm";
 
 mainRouter.get(
   "/",
@@ -29,7 +32,7 @@ mainRouter.get(
     res.status(StatusCodes.OK).json({
       message:
         "The Incredible True Story & Transformation of the man who saved the world",
-        data: bookmarks.folders[0].items
+      data: bookmarks.folders[0].items,
     });
   }
 );

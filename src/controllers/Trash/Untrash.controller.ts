@@ -1,7 +1,7 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { verifyToken } from "../../utils";
+import { verifyAccessToken } from "../../utils";
 
 /**
  * Untrash a bookmark
@@ -22,7 +22,7 @@ async function restoreBookmark(
   try {
     const id = req.params.id;
     const { authorization } = req.headers;
-    const isAuthorized: any = verifyToken(authorization);
+    const isAuthorized: any = verifyAccessToken(authorization);
     if (!isAuthorized) {
       return res
         .status(StatusCodes.UNAUTHORIZED)

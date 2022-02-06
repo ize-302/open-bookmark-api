@@ -1,5 +1,5 @@
 import Bookmark, { IBookmark } from "../../models/Bookmark.model";
-import { paginationOptions, verifyToken, fetchUser } from "../../utils";
+import { paginationOptions, verifyAccessToken, fetchUser } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -46,7 +46,6 @@ async function userPublicBookmarks(
         res.status(StatusCodes.OK).json(result);
       })
       .catch((err: any) => {
-        console.log(err);
         return res
           .status(StatusCodes.INTERNAL_SERVER_ERROR)
           .json({ meesage: ReasonPhrases.INTERNAL_SERVER_ERROR });
