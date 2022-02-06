@@ -1,5 +1,5 @@
 import User, { IUser } from "../../models/User.model";
-import { verifyToken } from "../../utils/index";
+import { verifyAccessToken } from "../../utils/index";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -19,7 +19,7 @@ async function addUser(
 ) {
   try {
     const { authorization } = req.headers;
-    const is_authorized: any = verifyToken(authorization);
+    const is_authorized: any = verifyAccessToken(authorization);
     if (!is_authorized) {
       return res
         .status(StatusCodes.UNAUTHORIZED)

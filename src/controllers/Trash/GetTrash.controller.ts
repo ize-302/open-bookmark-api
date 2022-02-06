@@ -1,5 +1,5 @@
 import Bookmark, { IBookmark } from "../../models/Bookmark.model";
-import { paginationOptions, verifyToken } from "../../utils";
+import { paginationOptions, verifyAccessToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -25,7 +25,7 @@ async function getTrash(
   try {
     const { q, page, per_page } = req.query;
     const { authorization } = req.headers;
-    const isAuthorized: any = verifyToken(authorization);
+    const isAuthorized: any = verifyAccessToken(authorization);
     if (!isAuthorized) {
       return res
         .status(StatusCodes.UNAUTHORIZED)

@@ -1,7 +1,5 @@
-import User, { IUser } from "../../models/User.model";
+import User from "../../models/User.model";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { fetchUser } from "../../utils";
-import { resourceLimits } from "worker_threads";
 
 /**
  *  Handle user

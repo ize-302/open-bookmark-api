@@ -1,5 +1,5 @@
 import Category, { ICategory } from "../../models/Category.model";
-import { verifyToken } from "../../utils/index";
+import { verifyAccessToken } from "../../utils/index";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -23,7 +23,7 @@ async function createCategory(
   try {
     const { name } = req.body;
     const { authorization } = req.headers;
-    const isAuthorized: any = verifyToken(authorization);
+    const isAuthorized: any = verifyAccessToken(authorization);
     if (!isAuthorized) {
       return res
         .status(StatusCodes.UNAUTHORIZED)

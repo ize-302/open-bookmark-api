@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
 import User from "../../models/User.model";
-import { verifyToken } from "../../utils";
+import { verifyAccessToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -20,7 +20,7 @@ async function followUser(
   try {
     const { id } = req.params;
     const { authorization } = req.headers;
-    const isAuthorized: any = verifyToken(authorization);
+    const isAuthorized: any = verifyAccessToken(authorization);
     if (!isAuthorized) {
       return res
         .status(StatusCodes.UNAUTHORIZED)

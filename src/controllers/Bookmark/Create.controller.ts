@@ -1,5 +1,5 @@
 import Bookmark, { IBookmark } from "../../models/Bookmark.model";
-import { verifyToken } from "../../utils/index";
+import { verifyAccessToken } from "../../utils/index";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -27,7 +27,7 @@ async function create(
   try {
     const { title, url, description, is_private, category } = req.body;
     const { authorization } = req.headers;
-    const isAuthorized: any = verifyToken(authorization);
+    const isAuthorized: any = verifyAccessToken(authorization);
     if (!isAuthorized) {
       return res
         .status(StatusCodes.UNAUTHORIZED)
