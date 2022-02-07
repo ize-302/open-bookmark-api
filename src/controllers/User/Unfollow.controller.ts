@@ -26,43 +26,17 @@ async function unfollowUser(
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
-    const user: any = await User.findOne({
-      sub: id,
-    });
-    let followers = user.followers;
-    // remove follower from followee's followers list
-    followers = followers.filter((follower: any) => {
-      return follower !== isAuthorized.sub;
-    });
-    const updateFollowers: any = await User.findOneAndUpdate(
-      {
-        sub: id,
-      },
-      {
-        followers: followers,
-      }
+    // remove me from followee's followers
+    await User.updateOne(
+      { sub: id },
+      { $pull: { followers: isAuthorized.sub } }
     );
-    // HANDLE UNFOLLOW FOR FOLLOWER
-    // find follower's details
-    const follower: any = await User.findOne({
-      sub: isAuthorized.sub,
-    });
-    let following = follower.following;
-    following = following.filter((followee: any) => {
-      return followee !== id;
-    });
-    const updateFollowing: any = await User.findOneAndUpdate(
-      {
-        sub: isAuthorized.sub,
-      },
-      {
-        following: following,
-      }
+    /// remove followee to my following
+    await User.updateOne(
+      { sub: isAuthorized.sub },
+      { $pull: { following: id } }
     );
-    // remove from follwoing
-    if (updateFollowers && updateFollowing) {
-      res.status(StatusCodes.OK).json({ message: "Unfollowed" });
-    }
+    res.status(StatusCodes.OK).json({ message: "Unfollowed" });
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
