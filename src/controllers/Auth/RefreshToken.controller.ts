@@ -1,7 +1,7 @@
 import User from "../../models/User.model";
 import Token from "../../models/Token.model";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { generateAccessToken } from "../../utils/index";
+import { generateAccessToken, logout } from "../../utils/index";
 import moment from "moment";
 moment.suppressDeprecationWarnings = true;
 
@@ -22,8 +22,10 @@ async function refreshtoken(
     const foundRefreshToken: any = await Token.findOne({
       token: refresh_token,
     });
-    let currentDate = moment(new Date());
-    const expires_at = moment(foundRefreshToken.expires_at);
+    let currentDate = moment(new Date()).format("DD-MM-YYYY hh:mm:ss");
+    const expires_at = moment(foundRefreshToken.expires_at).format(
+      "DD-MM-YYYY hh:mm:ss"
+    );
     if (!foundRefreshToken) {
       return res
         .status(StatusCodes.FORBIDDEN)
@@ -36,11 +38,12 @@ async function refreshtoken(
       });
       // GENERATE JWT
       const access_token = await generateAccessToken(getUserDetails);
-      res
+      return res
         .status(StatusCodes.OK)
         .json({ access_token: access_token, refresh_token });
     } else {
-      res
+      logout({ req, refresh_token });
+      return res
         .status(StatusCodes.FORBIDDEN)
         .json({ message: "Refresh token is expired" });
     }
