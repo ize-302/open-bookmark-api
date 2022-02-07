@@ -2,13 +2,7 @@ import User, { IUser } from "../../models/User.model";
 import Token, { IToken } from "../../models/Token.model";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { OAuth2Client } from "google-auth-library";
-import jwt from "jsonwebtoken";
-import {
-  verifyAccessToken,
-  generateAccessToken,
-  generateRefreshToken,
-} from "../../utils/index";
-import randToken from "rand-token";
+import { generateAccessToken, generateRefreshToken } from "../../utils/index";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -57,7 +51,7 @@ async function verifyUser(
     // GENERATE REFRESH TOKEN
     let refresh_token = generateRefreshToken(payload);
     // save refresh token
-    const futureDate = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
+    const futureDate = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000); // 90 days into the future
     const saveToken: IToken = new Token({
       token: refresh_token,
       created_at: new Date(),

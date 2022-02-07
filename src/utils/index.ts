@@ -46,7 +46,7 @@ export async function generateAccessToken(payload: any) {
       sub: payload.sub,
     },
     `${process.env.JWT_SECRET}`,
-    { expiresIn: "15000", algorithm: "HS256" }
+    { expiresIn: "1h", algorithm: "HS256" }
   );
   return access_token;
 }
@@ -62,6 +62,16 @@ export function generateRefreshToken(payload: any) {
 export async function fetchUser(req: any, authorId: any) {
   return axios
     .get(`http://${req.headers.host}/api/v1/users/${authorId}/info`)
+    .then((response) => {
+      return response.data;
+    });
+}
+
+export async function logout({ req, refresh_token }: any) {
+  return axios
+    .post(`http://${req.headers.host}/api/v1/auth/logout`, {
+      refresh_token: refresh_token,
+    })
     .then((response) => {
       return response.data;
     });
