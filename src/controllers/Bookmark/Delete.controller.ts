@@ -32,6 +32,7 @@ async function deleteBookmark(
       _id: id,
       author: isAuthorized.sub,
     });
+
     if (bookmarkToDelete) {
       return res.status(StatusCodes.OK).json({
         message: "Deleted!",

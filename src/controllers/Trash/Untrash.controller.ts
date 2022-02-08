@@ -1,5 +1,6 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
+import Category from "../../models/Category.model";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { verifyAccessToken } from "../../utils";
 
@@ -36,6 +37,11 @@ async function restoreBookmark(
       {
         is_trashed: false,
       }
+    );
+    // add back to category
+    await Category.updateOne(
+      { _id: bookmarkToRestore.category },
+      { $addToSet: { bookmarks: id } }
     );
     if (bookmarkToRestore) {
       return res.status(StatusCodes.OK).json({

@@ -1,5 +1,5 @@
-import Category, { ICategory } from "../../models/Category.model";
-import { paginationOptions, verifyAccessToken } from "../../utils";
+import Category from "../../models/Category.model";
+import { verifyAccessToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
