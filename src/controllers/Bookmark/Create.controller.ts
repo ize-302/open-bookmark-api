@@ -1,4 +1,5 @@
 import Bookmark, { IBookmark } from "../../models/Bookmark.model";
+import Category from "../../models/Category.model";
 import { verifyAccessToken } from "../../utils/index";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
@@ -49,6 +50,13 @@ async function create(
       category,
     });
     const createBookmark = await bookmark.save();
+    // update category
+    if (category) {
+      await Category.updateOne(
+        { _id: createBookmark.category },
+        { $addToSet: { bookmarks: [createBookmark._id] } }
+      );
+    }
     if (createBookmark) {
       res.status(StatusCodes.CREATED).json({ message: ReasonPhrases.CREATED });
     }

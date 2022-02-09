@@ -26,47 +26,17 @@ async function followUser(
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
-    const user: any = await User.findOne({
-      sub: id,
-    });
-    let followers = user.followers;
-    // // check if follower already following
-    const isFollowing = followers.find((follower: any) => {
-      return follower === isAuthorized.sub;
-    });
-    if (isFollowing) {
-      return res.status(StatusCodes.OK).json({ message: "Already following" });
-    }
-    // add to followee's followers list
-    followers.unshift(isAuthorized.sub);
-    const updateFollowers: any = await User.findOneAndUpdate(
-      {
-        sub: id,
-      },
-      {
-        followers: followers,
-      }
+    // add me to followee's followers
+    await User.updateOne(
+      { sub: id },
+      { $addToSet: { followers: isAuthorized.sub } }
     );
-    // HANDLE FOLLWING FOR FOLLOWER's FOLLOWERS
-    // get followe's details
-    let follower: any = await User.findOne({
-      sub: isAuthorized.sub,
-    });
-    let following = follower.following;
-    // add  followee to follower's following list
-    following.unshift(id);
-    const updateFollowing: any = await User.findOneAndUpdate(
-      {
-        sub: isAuthorized.sub,
-      },
-      {
-        following: following,
-      }
+    // add followee to my following
+    await User.updateOne(
+      { sub: isAuthorized.sub },
+      { $addToSet: { following: id } }
     );
-
-    if (updateFollowers && updateFollowing) {
-      res.status(StatusCodes.OK).json({ message: "Following" });
-    }
+    res.status(StatusCodes.OK).json({ message: "Following" });
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)

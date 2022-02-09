@@ -8,6 +8,7 @@ export interface ICategory extends Document {
   name: string;
   created_at: Date;
   author: string;
+  bookmarks: Array<string>;
 }
 
 // create schema and Model
@@ -15,6 +16,7 @@ const CategorySchema: Schema = new Schema({
   name: { type: String, required: true },
   created_at: { type: String, required: true },
   author: { type: String, required: true },
+  bookmarks: { type: Array, required: true },
 });
 
 const Category = model<ICategory>("Category", CategorySchema);

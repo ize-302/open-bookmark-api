@@ -1,5 +1,6 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
+import Category from "../../models/Category.model";
 import { verifyAccessToken } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
@@ -36,6 +37,11 @@ async function trashBookmark(
       {
         is_trashed: true,
       }
+    );
+    // remove from category
+    await Category.updateOne(
+      { _id: bookmarkToTrash.category },
+      { $pull: { bookmarks: id } }
     );
     if (bookmarkToTrash) {
       return res.status(StatusCodes.OK).json({
