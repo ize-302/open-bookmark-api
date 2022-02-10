@@ -30,7 +30,7 @@ async function getUserInfo(
       sub: id,
     });
     const query = {
-      sub: foundUser.following,
+      sub: { $in: foundUser.following },
     };
     if (!foundUser) return res.status(StatusCodes.OK).json({message: 'User not found'});
     User.paginate(query, await paginationOptions(per_page, page))

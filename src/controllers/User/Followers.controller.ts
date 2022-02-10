@@ -30,7 +30,7 @@ async function getUserInfo(
       sub: id,
     });
     const query = {
-      sub: foundUser.followers,
+      sub: { $in: foundUser.followers },
     };
 
     if (!foundUser) return res.status(StatusCodes.OK).json({message: 'User not found'});
