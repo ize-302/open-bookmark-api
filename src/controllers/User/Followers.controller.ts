@@ -1,6 +1,6 @@
 import User from "../../models/User.model";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { fetchUser } from "../../utils";
+import { fetchUser, paginationOptions } from "../../utils";
 
 /**
  *  Get user's followers
@@ -9,6 +9,10 @@ import { fetchUser } from "../../utils";
  */
 async function getUserInfo(
   req: {
+    query: {
+      page: string;
+      per_page: string;
+    };
     params: {
       id: string;
     };
@@ -20,15 +24,28 @@ async function getUserInfo(
   }
 ) {
   try {
+    const { page, per_page } = req.query;
     const { id } = req.params;
     const foundUser: any = await User.findOne({
       sub: id,
     });
-    if (!foundUser) return res.status(StatusCodes.OK).json([]);
-    for (let i = 0; i < foundUser.followers.length; i++) {
-      foundUser.followers[i] = await fetchUser(req, foundUser.followers[i]);
-    }
-    res.status(StatusCodes.OK).json(foundUser.followers);
+    const query = {
+      sub: foundUser.followers,
+    };
+
+    if (!foundUser) return res.status(StatusCodes.OK).json({message: 'User not found'});
+    User.paginate(query, await paginationOptions(per_page, page))
+    .then(async (result: any) => {
+      for (let i = 0; i < result.items.length; i++) {
+        result.items[i].followers = await fetchUser(req, result.items[i]);
+      }
+      res.status(StatusCodes.OK).json(result);
+    })
+    .catch((err: any) => {
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    });
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)

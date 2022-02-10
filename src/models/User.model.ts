@@ -1,5 +1,6 @@
-import { Document, model, ObjectId, Schema } from "mongoose";
+import { Document, model, ObjectId, Schema, PaginateModel } from "mongoose";
 import { config } from "dotenv";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 config();
 
@@ -25,6 +26,12 @@ const UserSchema: Schema = new Schema({
   followers: { type: Array, required: true },
 });
 
-const User = model<IUser>("User", UserSchema);
+UserSchema.plugin(mongoosePaginate);
+const User = model<IUser, PaginateModel<IUser>>(
+  "User",
+  UserSchema
+);
+
+// const User = model<IUser>("User", UserSchema);
 
 export default User;
