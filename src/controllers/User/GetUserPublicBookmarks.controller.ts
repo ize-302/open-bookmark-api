@@ -1,5 +1,5 @@
-import Bookmark, { IBookmark } from "../../models/Bookmark.model";
-import { paginationOptions, verifyAccessToken, fetchUser } from "../../utils";
+import Bookmark from "../../models/Bookmark.model";
+import { paginationOptions, fetchUser } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
