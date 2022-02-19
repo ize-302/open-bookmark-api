@@ -55,15 +55,15 @@ async function updateBookmark(
     );
 
     if (bookmarkToUpdate) {
-      // add to new category
-      await Category.updateOne(
-        { _id: category },
-        { $addToSet: { bookmarks: id } }
-      );
       // remove from old category
       await Category.updateOne(
         { _id: oldCategory },
         { $pull: { bookmarks: id } }
+      );
+      // add to new category
+      await Category.updateOne(
+        { _id: category },
+        { $addToSet: { bookmarks: id } }
       );
       return res.status(StatusCodes.OK).json({
         message: "Bookmark Updated!",
