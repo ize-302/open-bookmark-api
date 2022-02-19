@@ -31,13 +31,14 @@ async function browse(
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: ReasonPhrases.UNAUTHORIZED });
     }
+    // get user's followings
+    const userDetails = await fetchUser(req, isAuthorized.sub);
+    const followings = userDetails.following;
+
     const query = {
       is_private: false,
       is_trashed: false,
-      $or: [
-        { title: { $regex: new RegExp(q), $options: "i" } },
-        { url: { $regex: new RegExp(q), $options: "i" } },
-      ],
+      author: { $in: followings },
     };
 
     Bookmark.paginate(query, await paginationOptions(per_page, page))
