@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
 import Category from "../../models/Category.model";
-import { verifyAccessToken } from "../../utils";
+import { userIsAuthorized } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -24,13 +24,7 @@ async function updateCategory(
 ) {
   try {
     const id = req.params.id;
-    const { authorization } = req.headers;
-    const isAuthorized: any = verifyAccessToken(authorization);
-    if (!isAuthorized) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: ReasonPhrases.UNAUTHORIZED });
-    }
+    const isAuthorized: any = userIsAuthorized(req, res);
     const { name } = req.body;
     const categoryToUpdate: any = await Category.findOneAndUpdate(
       {

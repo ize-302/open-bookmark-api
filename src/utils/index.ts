@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import axios from "axios";
 import randToken from "rand-token";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 // PAGINATION UTISL
 const customLabels = {
@@ -75,4 +76,16 @@ export async function logout({ req, refresh_token }: any) {
     .then((response) => {
       return response.data;
     });
+}
+
+// return user detail if user is authorised
+export function userIsAuthorized(req: any, res: any) {
+  const isAuthorized = verifyAccessToken(req.headers.authorization);
+  if (!isAuthorized) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: ReasonPhrases.UNAUTHORIZED });
+  } else {
+    return isAuthorized;
+  }
 }

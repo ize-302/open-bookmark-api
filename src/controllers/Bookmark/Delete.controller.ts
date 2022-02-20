@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
-import { verifyAccessToken } from "../../utils";
+import { userIsAuthorized } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -21,13 +21,7 @@ async function deleteBookmark(
 ) {
   try {
     const id = req.params.id;
-    const { authorization } = req.headers;
-    const isAuthorized: any = verifyAccessToken(authorization);
-    if (!isAuthorized) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: ReasonPhrases.UNAUTHORIZED });
-    }
+    const isAuthorized = userIsAuthorized(req, res);
     const bookmarkToDelete: any = await Bookmark.findOneAndRemove({
       _id: id,
       author: isAuthorized.sub,

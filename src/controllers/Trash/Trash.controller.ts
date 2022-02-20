@@ -1,7 +1,7 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
 import Category from "../../models/Category.model";
-import { verifyAccessToken } from "../../utils";
+import { userIsAuthorized } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -22,13 +22,7 @@ async function trashBookmark(
 ) {
   try {
     const id = req.params.id;
-    const { authorization } = req.headers;
-    const isAuthorized: any = verifyAccessToken(authorization);
-    if (!isAuthorized) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: ReasonPhrases.UNAUTHORIZED });
-    }
+    const isAuthorized = userIsAuthorized(req, res);
     const bookmarkToTrash: any = await Bookmark.findOneAndUpdate(
       {
         _id: id,

@@ -1,6 +1,6 @@
 import Bookmark, { IBookmark } from "../../models/Bookmark.model";
 import Category from "../../models/Category.model";
-import { verifyAccessToken } from "../../utils/index";
+import { userIsAuthorized } from "../../utils/index";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -27,13 +27,7 @@ async function create(
 ) {
   try {
     const { title, url, description, is_private, category } = req.body;
-    const { authorization } = req.headers;
-    const isAuthorized: any = verifyAccessToken(authorization);
-    if (!isAuthorized) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: ReasonPhrases.UNAUTHORIZED });
-    }
+    const isAuthorized = userIsAuthorized(req, res);
     if (!title || !url) {
       return res
         .status(StatusCodes.BAD_REQUEST)

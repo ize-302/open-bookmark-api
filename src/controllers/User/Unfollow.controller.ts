@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
 import User from "../../models/User.model";
-import { verifyAccessToken } from "../../utils";
+import { userIsAuthorized } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -19,13 +19,7 @@ async function unfollowUser(
 ) {
   try {
     const { id } = req.params;
-    const { authorization } = req.headers;
-    const isAuthorized: any = verifyAccessToken(authorization);
-    if (!isAuthorized) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: ReasonPhrases.UNAUTHORIZED });
-    }
+    const isAuthorized: any = userIsAuthorized(req, res);
     // remove me from followee's followers
     await User.updateOne(
       { sub: id },
