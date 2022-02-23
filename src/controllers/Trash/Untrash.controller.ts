@@ -32,11 +32,6 @@ async function restoreBookmark(
         is_trashed: false,
       }
     );
-    // add back to category
-    await Category.updateOne(
-      { _id: bookmarkToRestore.category },
-      { $addToSet: { bookmarks: id } }
-    );
     if (bookmarkToRestore) {
       return res.status(StatusCodes.OK).json({
         message: "Bookmark restored!",

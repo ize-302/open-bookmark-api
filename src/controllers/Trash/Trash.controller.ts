@@ -32,11 +32,6 @@ async function trashBookmark(
         is_trashed: true,
       }
     );
-    // remove from category
-    await Category.updateOne(
-      { _id: bookmarkToTrash.category },
-      { $pull: { bookmarks: id } }
-    );
     if (bookmarkToTrash) {
       return res.status(StatusCodes.OK).json({
         message: "Bookmark trashed!",
