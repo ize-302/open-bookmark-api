@@ -1,16 +1,15 @@
 import Bookmark from "../../models/Bookmark.model";
-import { paginationOptions, verifyAccessToken, fetchUser } from "../../utils";
+import { paginationOptions, fetchUser, userIsAuthorized } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
- *  Browser bookmarks
+ *  Browse bookmarks
  *
- *  Description: Get all publicly available bookamrjs
+ *  Description: Get all publicly available bookamrks by users you follow
  */
 async function browse(
   req: {
     query: {
-      q: string;
       page: string;
       per_page: string;
     };
@@ -23,21 +22,16 @@ async function browse(
   }
 ) {
   try {
-    const { q, page, per_page } = req.query;
-    const { authorization } = req.headers;
-    const isAuthorized: any = verifyAccessToken(authorization);
-    if (!isAuthorized) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: ReasonPhrases.UNAUTHORIZED });
-    }
+    const { page, per_page } = req.query;
+    const isAuthorized = userIsAuthorized(req, res);
+    // get user's followings
+    const userDetails = await fetchUser(req, isAuthorized.sub);
+    const followings = userDetails.following;
+
     const query = {
       is_private: false,
       is_trashed: false,
-      $or: [
-        { title: { $regex: new RegExp(q), $options: "i" } },
-        { url: { $regex: new RegExp(q), $options: "i" } },
-      ],
+      author: { $in: followings },
     };
 
     Bookmark.paginate(query, await paginationOptions(per_page, page))

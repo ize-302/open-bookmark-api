@@ -1,5 +1,5 @@
 import User, { IUser } from "../../models/User.model";
-import { verifyAccessToken } from "../../utils/index";
+import { userIsAuthorized } from "../../utils/index";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -18,15 +18,9 @@ async function addUser(
   }
 ) {
   try {
-    const { authorization } = req.headers;
-    const is_authorized: any = verifyAccessToken(authorization);
-    if (!is_authorized) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: ReasonPhrases.UNAUTHORIZED });
-    }
-    const { avatar_url, full_name, email } = is_authorized.user_metadata;
-    const { sub } = is_authorized;
+    const isAuthorized = userIsAuthorized(req, res);
+    const { avatar_url, full_name, email } = isAuthorized.user_metadata;
+    const { sub } = isAuthorized;
     const foundUser: any = await User.findOne({
       email,
     });

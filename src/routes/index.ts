@@ -7,6 +7,7 @@ const otherRoute = require("./others.route");
 const userRoute = require("./user.route");
 const categoryRoute = require("./category.route");
 const authRoute = require("./auth.route");
+const searchRoute = require("./search.route");
 
 mainRouter.use("/", bookmarkRoute);
 mainRouter.use("/", trashRoute);
@@ -14,6 +15,7 @@ mainRouter.use("/", otherRoute);
 mainRouter.use("/", userRoute);
 mainRouter.use("/", categoryRoute);
 mainRouter.use("/", authRoute);
+mainRouter.use("/", searchRoute);
 
 import bookmarks from "../controllers/Others/hmm";
 

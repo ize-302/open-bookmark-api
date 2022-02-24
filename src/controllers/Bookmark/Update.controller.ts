@@ -1,7 +1,7 @@
 import { ObjectId } from "mongoose";
 import Bookmark from "../../models/Bookmark.model";
 import Category from "../../models/Category.model";
-import { verifyAccessToken } from "../../utils";
+import { userIsAuthorized } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -30,13 +30,7 @@ async function updateBookmark(
 ) {
   try {
     const id = req.params.id;
-    const { authorization } = req.headers;
-    const isAuthorized: any = verifyAccessToken(authorization);
-    if (!isAuthorized) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: ReasonPhrases.UNAUTHORIZED });
-    }
+    const isAuthorized = userIsAuthorized(req, res);
     const { title, url, description, is_private, category, oldCategory } =
       req.body;
     const bookmarkToUpdate: any = await Bookmark.findOneAndUpdate(
@@ -55,16 +49,6 @@ async function updateBookmark(
     );
 
     if (bookmarkToUpdate) {
-      // add to new category
-      await Category.updateOne(
-        { _id: category },
-        { $addToSet: { bookmarks: id } }
-      );
-      // remove from old category
-      await Category.updateOne(
-        { _id: oldCategory },
-        { $pull: { bookmarks: id } }
-      );
       return res.status(StatusCodes.OK).json({
         message: "Bookmark Updated!",
       });

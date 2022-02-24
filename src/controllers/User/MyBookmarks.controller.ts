@@ -1,5 +1,5 @@
 import Bookmark, { IBookmark } from "../../models/Bookmark.model";
-import { paginationOptions, verifyAccessToken, fetchUser } from "../../utils";
+import { paginationOptions, userIsAuthorized, fetchUser } from "../../utils";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 /**
@@ -24,8 +24,7 @@ async function myBookmarks(
 ) {
   try {
     const { q, page, per_page } = req.query;
-    const { authorization } = req.headers;
-    const isAuthorized: any = verifyAccessToken(authorization);
+    const isAuthorized = userIsAuthorized(req, res);
     const query = {
       is_trashed: false,
       author: isAuthorized.sub,
