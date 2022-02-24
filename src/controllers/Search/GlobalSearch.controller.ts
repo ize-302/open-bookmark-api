@@ -65,7 +65,6 @@ async function globalSearch(
       });
       result = bookmarks || [];
     }
-    console.log(result);
     res.status(StatusCodes.OK).json({ ...result, result_type: search_for });
   } catch (error) {
     return res
