@@ -43,7 +43,7 @@ async function globalSearch(
       ).then(async (result: any) => {
         return result;
       });
-      result = users;
+      result = users || [];
     } else if (search_for === "bookmarks") {
       // query bookmarks
       query = {
@@ -63,8 +63,9 @@ async function globalSearch(
         }
         return result;
       });
-      result = bookmarks;
+      result = bookmarks || [];
     }
+    console.log(result);
     res.status(StatusCodes.OK).json({ ...result, result_type: search_for });
   } catch (error) {
     return res
