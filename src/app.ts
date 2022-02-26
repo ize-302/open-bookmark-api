@@ -3,7 +3,7 @@ const app = express();
 import dotenv from "dotenv";
 const api = require("./routes/index");
 const cors = require("cors");
-const dbConnect = require("./middleware/connection");
+require("./config/connection");
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 
 dotenv.config();
@@ -24,15 +24,6 @@ app.use("/api/v1", api);
 app.all("*", (req, res) => {
   res.status(StatusCodes.NOT_FOUND).json({ message: ReasonPhrases.NOT_FOUND });
 });
-
-// mongodb conection
-dbConnect
-  .once("open", (_: any) => {
-    console.log("Database connected");
-  })
-  .on("error", (err: any) => {
-    console.error("connection error:", err);
-  });
 
 app.listen(process.env.PORT, () => {
   console.log(

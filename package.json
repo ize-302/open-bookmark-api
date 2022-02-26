@@ -6,13 +6,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node dist/app.js",
-    "postinstall": "tsc",
-    "watch-node": "nodemon dist/app.js",
-    "watch-ts": "tsc -w",
-    "deploy": "git add . && git commit -m Heroku && git push heroku master",
     "build": "tsc --project ./",
-    "build:live": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/app.ts"
+    "start": "node dist/app.js",
+    "start:dev": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/app.ts",
+    "deploy": "git add . && git commit -m Heroku && git push heroku master"
   },
   "engines": {
     "node": "14.17.0"
@@ -29,8 +26,7 @@
     "mongoose": "^6.0.7",
     "mongoose-paginate-v2": "^1.4.2",
     "nodemailer": "^6.7.1",
-    "rand-token": "^1.0.1",
-    "twilio": "^3.71.2"
+    "rand-token": "^1.0.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
