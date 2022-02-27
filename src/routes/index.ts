@@ -17,7 +17,7 @@ mainRouter.use("/", categoryRoute);
 mainRouter.use("/", authRoute);
 mainRouter.use("/", searchRoute);
 
-import bookmarks from "../controllers/Others/hmm";
+// import bookmarks from "../controllers/Others/hmm";
 
 mainRouter.get(
   "/",
@@ -34,7 +34,6 @@ mainRouter.get(
     res.status(StatusCodes.OK).json({
       message:
         "The Incredible True Story & Transformation of the man who saved the world",
-      data: bookmarks.folders[0].items,
     });
   }
 );
