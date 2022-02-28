@@ -61,4 +61,4 @@ yarn build
 
 ## API DOCUMENTATION
 
-[Postman Documentation](https://web.postman.co/documentation/7097316-05faf09a-b8a3-4a39-bd30-ff012794a0c7/publish?workspaceId=dc574d07-716a-4a50-82d9-dd68ab6760ef)
+[Postman Documentation](https://documenter.getpostman.com/view/7097316/UVkqsv7z)
