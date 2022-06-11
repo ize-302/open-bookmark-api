@@ -38,8 +38,8 @@ async function create(
       url,
       description,
       is_private,
-      created_at: new Date(),
-      updated_at: new Date(),
+      created_at: Date.now(),
+      updated_at: Date.now(),
       author: isAuthorized.sub,
       category,
     });
